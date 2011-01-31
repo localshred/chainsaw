@@ -1,0 +1,30 @@
+!!!
+%html
+	%head
+		%title Chainsaw
+		/ %link{rel: 'stylesheet', type: 'text/css', href: '/css/main.css'}
+		%script{type: 'text/javascript', src: 'https://ajax.googleapis.com/ajax/libs/mootools/1.3.0/mootools-yui-compressed.js'}
+		%script{type: 'text/javascript', src: '/js/mootools-more.js'}
+		%script{type: 'text/javascript', src: '/js/raphael-min.js'}
+		%script{type: 'text/javascript', src: '/js/g.raphael-min.js'}
+		%script{type: 'text/javascript', src: '/js/g.bar-min.js'}
+		%script{type: 'text/javascript', src: '/js/g.dot-min.js'}
+		%script{type: 'text/javascript', src: '/js/g.line-min.js'}
+		%script{type: 'text/javascript', src: '/js/g.pie-min.js'}
+		%script{type: 'text/javascript', src: '/js/chainsaw.js'}
+	%body
+		#wrapper
+			#header
+				%h1#title Chainsaw nginx reports
+			#content
+				#sidebar
+					%ul
+						- collections.each do |collection|
+							%li
+								%a{href: "#", title: "/reports/#{collection}"}= collection
+				#guts
+					= yield
+					
+			#footer
+				Chainsaw reports rawk!
+		
