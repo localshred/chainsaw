@@ -1,12 +1,18 @@
 conversions:
-  -
-    db: chainsaw
-    collection: hits_by_type
-    restrict:
-      query: 
-        status:
-          '$lt': 400
-  -
-    db: chainsaw
-    collection: hits_by_status
-    restrict:
+  # -
+  #   db: chainsaw
+  #   collection: hits_by_type
+  #   restrict:
+  #     query: 
+  #       status:
+  #         '$lt': 400
+  # -
+  #   db: chainsaw
+  #   collection: hits_by_status
+  #   restrict:
+
+ -
+   db: test
+   collection: popular_words
+   options:
+     out: popular_words

@@ -1,1 +1,3 @@
 .bundle
+tmp/*.bson
+.DS_Store

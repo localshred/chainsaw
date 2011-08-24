@@ -6,40 +6,35 @@ module Chainsaw
     attr_accessor :conversions
     attr_reader :results
     
-    def initialize raw_db, raw_col, map_reduce_file, filtered=[]
-      raise 'You must provide a file to define your map reduce functions' unless File.exist?(map_reduce_file)
-      @conversions = YAML.load_file(map_reduce_file)['conversions']
-      @filtered = filtered
+    def initialize source_db, source_col, scripts=[]
+      @scripts = scripts
       
       # Ensure connected
       Connection.connect unless Connection.connected?
-      @raw = Connection.current.db(raw_db)[raw_col]
-      @results = {}
+      @source = Connection.current.db(source_db)[source_col]
     end
     
     def run
-      @conversions.each do |conv|
-        next if !@filtered.nil? and !@filtered.include?(conv['collection'])
+      script_glob = @scripts.empty? ? '*' : "{#{@scripts.join(',')}}"
+      Dir[Utilio::Path.root('script', script_glob)].each do |script|
+        next if !@scripts.nil? and !@scripts.include?(script)
         
-        puts 'conversion -> %s' % conv.inspect
-        map = File.read("#{Utilio::Path.root}/#{conv['collection']}/map.js")
-        reduce = File.read("#{Utilio::Path.root}/#{conv['collection']}/reduce.js")
-        res = @raw.map_reduce(map, reduce, conv['restrict'] || Hash.new)
-        col = Connection.current.db(conv['db'])[conv['collection']]
-        if res.size > 0
-          puts 'Inserting %d reduced records to %s -> %s' % [res.size, conv['db'], conv['collection']]
-          res.find.to_a.each do |reduced|
-            puts 'reduction -> %s' % reduced.inspect
-            col.insert(reduced)
-          end
-        else
-          puts 'Warning: no records were reduced'
+        puts 'running script -> %s' % script
+        
+        map_path = Utilio::Path.root('script', script, 'map.js')
+        query_path = Utilio::Path.root('script', script, 'query.rb')
+        if File.exist?(map_path)
+          puts 'script is map/reduce report'
+          map = File.read(map_path)
+          reduce = File.read(Utilio::Path.root('script', script, 'reduce.js'))
+          res = @source.map_reduce(map, reduce, {out: script})
+        elsif File.exist?(query_path)
+          puts 'script is query report'
+          load query_path
         end
+        
         puts '----'
       end
-    end
-    
-    def stats
     end
     
   end
