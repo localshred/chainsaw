@@ -4,6 +4,7 @@ require 'thor'
 Bundler.require
 
 $:.push File.expand_path('lib', File.dirname(__FILE__))
+require 'utilio'
 require 'chainsaw'
 
 class ChainsawCLI < Thor

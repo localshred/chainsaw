@@ -1,5 +1,6 @@
 function(){
-  for (var word in this.description.split(/\s+/)) {
-    emit(word, {count: 1});
+  var words = this.description.split(/\s+/);
+  for (var i=0, l=words.length; i < l; i++) {
+    emit(words[i].toLowerCase(), {count: 1});
   }
 }
