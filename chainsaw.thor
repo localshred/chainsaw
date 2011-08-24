@@ -23,14 +23,12 @@ class ChainsawCLI < Thor
     say 'Done', :green
   end
   
-  method_option :conversions, :type => :array, :default => nil, :aliases => %w(-c)
-  desc 'process MAP_REDUCE_FILE', 'Process the raw log data, specifying a YAML file as input to define the conversions'
+  method_option :scripts, :type => :array, :default => nil, :aliases => %w(-c)
+  desc 'process', 'Process the raw log data, specifying a YAML file as input to define the conversions'
   def process map_reduce_file
-    say 'Processing raw data with map/reduce functions from %s' % map_reduce_file, :yellow
-    process = Chainsaw::Process.new(options.db, options.collection, map_reduce_file, options.conversions)
-    process.run
+    say 'Processing map/reduce from %s' % (options.scripts.empty? ? 'all scripts' : options.scripts.join(', ')), :yellow
+    process = Chainsaw::Process.new(options.db, options.collection, options.scripts).run
     
-    say process.stats
     say 'Done', :green
   end
   
