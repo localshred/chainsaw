@@ -6,5 +6,5 @@ gem 'mongo', '1.2.0'
 gem 'bson_ext', '1.2.0'
 gem 'sinatra'
 gem 'haml'
-
+gem 'utilio'
 gem 'shotgun', :group => :development

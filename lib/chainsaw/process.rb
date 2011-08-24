@@ -22,7 +22,9 @@ module Chainsaw
         next if !@filtered.nil? and !@filtered.include?(conv['collection'])
         
         puts 'conversion -> %s' % conv.inspect
-        res = @raw.map_reduce(conv['map'], conv['reduce'], conv['restrict'] || Hash.new)
+        map = File.read("#{Utilio::Path.root}/#{conv['collection']}/map.js")
+        reduce = File.read("#{Utilio::Path.root}/#{conv['collection']}/reduce.js")
+        res = @raw.map_reduce(map, reduce, conv['restrict'] || Hash.new)
         col = Connection.current.db(conv['db'])[conv['collection']]
         if res.size > 0
           puts 'Inserting %d reduced records to %s -> %s' % [res.size, conv['db'], conv['collection']]

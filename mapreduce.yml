@@ -6,32 +6,7 @@ conversions:
       query: 
         status:
           '$lt': 400
-    map: |
-      function(){
-        emit(this.http_method, {count: 1});
-      }
-    reduce: |
-      function(k,v){
-        var sum = 0;
-        v.forEach(function(f) { 
-          sum += f.count;
-        }); 
-        return {count: sum};
-      }
-  
   -
     db: chainsaw
     collection: hits_by_status
     restrict:
-    map: |
-      function(){
-        emit(parseInt(this.status).toString(), {count: 1});
-      }
-    reduce: |
-      function(k,v){
-        var sum = 0;
-        v.forEach(function(f) { 
-          sum += f.count;
-        }); 
-        return {count: sum};
-      }
