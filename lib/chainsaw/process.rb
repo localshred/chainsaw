@@ -17,8 +17,8 @@ module Chainsaw
     def run
       script_glob = @scripts.empty? ? '*' : "{#{@scripts.join(',')}}"
       Dir[Utilio::Path.root('script', script_glob)].each do |script|
+        script = script.split('/').last
         next if !@scripts.nil? and !@scripts.include?(script)
-        
         puts 'running script -> %s' % script
         
         map_path = Utilio::Path.root('script', script, 'map.js')
@@ -31,6 +31,7 @@ module Chainsaw
         elsif File.exist?(query_path)
           puts 'script is query report'
           load query_path
+          run_query(@source)
         end
         
         puts '----'
