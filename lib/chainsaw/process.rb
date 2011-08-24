@@ -29,9 +29,9 @@ module Chainsaw
         map_path = Utilio::Path.root('script', script, 'map.js')
         query_path = Utilio::Path.root('script', script, 'query.rb')
         
-        puts map_path
-        puts query_path
         if File.exist?(map_path)
+          puts map_path
+          puts query_path
           puts 'script is map/reduce report'
           
           options = {out: script}
