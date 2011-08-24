@@ -1,7 +1,5 @@
 function (k,v) {
-  var sum = 0;
-  v.forEach(function(f) { 
-    sum += f.count;
-  }); 
-  return {count: sum};
+  var result = {count: 0};
+  v.forEach(function(o){ result.count += o.count; });
+  return result;
 }
