@@ -43,7 +43,11 @@ module Chainsaw
           puts map
           reduce = File.read(Utilio::Path.root('script', script, 'reduce.js'))
           puts reduce
-          
+
+          finalize = File.read(Utilio::Path.root('script', script, 'finalize.js'))
+          puts finalize
+          options.merge!({finalize: finalize}) if(!finalize.empty?)
+
           puts 'running map/reduce'
           @result = @source.map_reduce(map, reduce, options)
         elsif File.exist?(query_path)
