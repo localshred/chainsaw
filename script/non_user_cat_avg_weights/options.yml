@@ -1,2 +1,4 @@
 query:
   'sphinx_result.attributes.categorized_by_user': null
+  'sphinx_result.matches':
+    '$exists': true

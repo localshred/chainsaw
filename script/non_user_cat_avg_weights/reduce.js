@@ -1,9 +1,9 @@
 function(k,v) {
-  var result = {avg_weight: 0};
+  var result = {total_weight: 0, count: 0, average: 0};
   var total_weight = 0;
   v.forEach(function(o){
-    total_weight += o.weight;
+    result.total_weight += o.total_weight;
+    result.count += o.count;
   });
-  result.avg_weight = total_weight / v.length;
   return result;
 }

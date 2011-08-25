@@ -8,7 +8,7 @@ module Chainsaw
     attr_reader :current
     
     def connect db_name=nil
-      @current = Mongo::Connection.new('172.16.0.188')
+      @current = Mongo::Connection.new
       @current.db(db_name) unless db_name.nil?
     end
     
