@@ -1,0 +1,3 @@
+query:
+  "sphinx_result.error":
+    "$ne": 
