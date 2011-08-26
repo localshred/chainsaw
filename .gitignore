@@ -1,3 +1,6 @@
 .bundle
 tmp/*.bson
 .DS_Store
+tmp/*
+.swn
+.swo
